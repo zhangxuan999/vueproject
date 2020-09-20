@@ -1,5 +1,6 @@
 <template>
   <div id="home">
+    <!-- 使用nav-bar，为什么是nav加个-？？ -->
     <nav-bar class="nav-bar"><div slot="center">购物街</div></nav-bar>
     <tab-control v-show="isTabFixed" class="fixed" @itemClick="tabClick"
                  :titles="['流行', '新款', '精选']"></tab-control>
@@ -28,7 +29,9 @@
 </template>
 
 <script>
+// 在home里面使用navebar
   import NavBar from 'common/navbar/NavBar'
+  
   import Scroll from 'common/scroll/Scroll'
   import TabControl from 'content/tabControl/TabControl'
   import BackTop from 'content/backTop/BackTop'
@@ -36,13 +39,14 @@
   import FeatureView from './childComps/FeatureView'
   import RecommendView from './childComps/RecommendView'
   import GoodsList from './childComps/GoodsList'
+  //导入了网络请求相关，为什么加{}
   import {getHomeMultidata, getHomeData, RECOMMEND, BANNER} from "network/home";
   import {NEW, POP, SELL, BACKTOP_DISTANCE} from "@/common/const";
 
   export default {
 		name: "Home",
     components: {
-		  NavBar,
+		  NavBar,//注册navbar
       Scroll,
       TabControl,
       BackTop,
@@ -123,6 +127,7 @@
        */
       getMultiData() {
         getHomeMultidata().then(res => {
+          console.log(res);
           this.banners = res.data[BANNER].list
           this.recommends = res.data[RECOMMEND].list
           // 下次更新DOM时,获取新的tabOffsetTop值(不保险,可以在updated钩子中获取)
@@ -133,6 +138,8 @@
       },
       getHomeProducts(type) {
         getHomeData(type, this.goodsList[type].page).then(res => {
+                  console.log("-----------------");
+                  console.log(res);
           const goodsList = res.data.list;
           this.goodsList[type].list.push(...goodsList)
           this.goodsList[type].page += 1
@@ -151,6 +158,7 @@
   }
 
   .nav-bar {
+    /* 设置home的导航栏的背景颜色 */
     background-color: var(--color-tint);
     font-weight: 700;
     color: #fff;

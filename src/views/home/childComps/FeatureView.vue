@@ -1,4 +1,5 @@
 <template>
+<!-- 显示推荐的4张图 -->
   <div class="feature">
     <div class="feature-item" v-for="(item, index) in features">
       <a :href="item.link">
